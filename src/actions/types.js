@@ -16,9 +16,21 @@ export const ROUTE_NAVIGATE 		= 'ROUTE_NAVIGATE'
 export const ROUTE_RESET 			= 'ROUTE_RESET'
 export const ROUTE_BACK 			= 'ROUTE_BACK'
 
-
-export const QUOTE_REQUEST 			= 'QUOTE_REQUEST'
-export const QUOTE_FULFILLED 		= 'QUOTE_FULFILLED'
-export const QUOTE_ERROR 			= 'QUOTE_ERROR'
-
 export const USER_DATA_LOADED		= 'USER_DATA_LOADED'
+
+export const SET_CURRENT_TIME		= 'SET_CURRENT_TIME'
+
+export const RECORDS_LOADED			= 'RECORDS_LOADED'
+
+export const SEARCH					= 'SEARCH'
+export const SEARCH_FETCHED			= 'SEARCH_FETCHED'
+export const DISPLAY				= 'DISPLAY'
+export const DISPLAY_FETCHED		= 'DISPLAY_FETCHED'
+
+export const PLAY 					= 'PLAY'
+
+export const RECORD_UNMOUNT			= 'RECORD_UNMOUNT'
+
+export const SET_ANSWER				= 'SET_ANSWER'
+export const SET_STEP				= 'SET_STEP'
+export const EDIT_UNMOUNT			= 'EDIT_UNMOUNT'

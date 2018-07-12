@@ -12,32 +12,32 @@ const SignUp = ({ operating, setName, setEmail, setPassword, _signUp, _toLogIn }
 	<View style={styles.container}>
 		<TextInput 
 			style={styles.input} 
-			placeholder='First Name' 
+			placeholder='İsminiz' 
 			autoCapitalize='none' 
 			underlineColorAndroid='transparent'
 			onChangeText={setName} />
 		<TextInput 
 			style={styles.input} 
-			placeholder='Email' 
+			placeholder='E-posta' 
 			keyboardType='email-address' 
 			autoCapitalize='none' 
 			underlineColorAndroid='transparent'
 			onChangeText={setEmail} />
 		<TextInput 
 			style={styles.input} 
-			placeholder='Password' 
+			placeholder='Şifre' 
 			autoCapitalize='none' 
 			secureTextEntry={true} 
 			underlineColorAndroid='transparent'
 			onChangeText={setPassword} />
 
-		<CustomButton type='primary' text='Sign Up' onPress={_signUp} animation={operating} />
+		<CustomButton type='primary' text='Üye ol' onPress={_signUp} animation={operating} />
 
-		<Text style={styles.or}>OR</Text>
+		<Text style={styles.or}>VEYA</Text>
 
 		<View style={styles.forgotContainer}>
-			<Text style={styles.forgotText}>Have an account?</Text>
-			<CustomButton type='link' text='Log in now!' onPress={_toLogIn} animation={operating} />
+			<Text style={styles.forgotText}>Zaten üye misiniz?</Text>
+			<CustomButton type='link' text='Giriş yap!' onPress={_toLogIn} animation={operating} />
 		</View>
 	</View>
 

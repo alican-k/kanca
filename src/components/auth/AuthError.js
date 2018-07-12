@@ -14,7 +14,7 @@ const AuthError = ({ auth, _closeAuthError }) =>
 			{auth.error.description}
 		</Text>
 		<TouchableOpacity onPress={_closeAuthError}>
-			<Text style={styles.close}>Close</Text>
+			<Text style={styles.close}>Kapat</Text>
 		</TouchableOpacity>
 	</View>
 	

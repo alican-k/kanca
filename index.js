@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native'
-import Starter from './src'
+import Kanca from './src'
 
-AppRegistry.registerComponent('Starter', () => Starter)
+AppRegistry.registerComponent('Starter', () => Kanca)

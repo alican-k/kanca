@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable'
 import * as actionTypes from '../actions/types'
 import { authScreenConst } from '../constants'
 import { authError, closeAuthError, loggedIn, notLoggedIn, routeReset, sent, displayAuth } from '../actions'
-import { authState$, signUp, createUserData, logOut, logIn, reset } from '../helpers/requests'
+import { authState$, signUp, createUserData, prepareRecords, logOut, logIn, reset } from '../helpers/requests'
 import validations from '../helpers/validations'
 
 const { empty, of, concat, fromPromise } = Observable
@@ -21,6 +21,7 @@ export const signUpEpic = action$ => action$.ofType(actionTypes.SIGN_UP)
 			? of(authError(err))
 			: fromPromise(signUp(email, password))
 				.switchMap(() => createUserData({ name }))
+				.switchMap(() => prepareRecords())
 				.ignoreElements()
 				.catch(err => of(authError(err)))
 	})

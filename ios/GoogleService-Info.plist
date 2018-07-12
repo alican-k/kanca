@@ -7,34 +7,34 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>953582384930-5sdd4m1337t11u784sclnrh6h894io11.apps.googleusercontent.com</string>
+	<string>534348327245-eop8bmvenjmq9uffraa7t2s7dca692ee.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.953582384930-5sdd4m1337t11u784sclnrh6h894io11</string>
+	<string>com.googleusercontent.apps.534348327245-eop8bmvenjmq9uffraa7t2s7dca692ee</string>
 	<key>API_KEY</key>
-	<string>AIzaSyB7fbYA3gMk_AatZlLq1meUMWmTW1fDA78</string>
+	<string>AIzaSyCqjN4HlU9R3nMt7tfsGlLxeqjNGwwtXeY</string>
 	<key>GCM_SENDER_ID</key>
-	<string>953582384930</string>
+	<string>534348327245</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.alicankaynarca.rnstarter</string>
+	<string>com.alicankaynarca.kanca</string>
 	<key>PROJECT_ID</key>
-	<string>starter-bd487</string>
+	<string>kanca-2fabb</string>
 	<key>STORAGE_BUCKET</key>
-	<string>starter-bd487.appspot.com</string>
+	<string>kanca-2fabb.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
 	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<false></false>
 	<key>IS_GCM_ENABLED</key>
 	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:953582384930:ios:753b17c1d536c0f8</string>
+	<string>1:534348327245:ios:ae0c61b66db676b9</string>
 	<key>DATABASE_URL</key>
-	<string>https://starter-bd487.firebaseio.com</string>
+	<string>https://kanca-2fabb.firebaseio.com</string>
 </dict>
 </plist>

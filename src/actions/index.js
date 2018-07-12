@@ -17,13 +17,26 @@ export const authError 			= (error)					=> ac(types.AUTH_ERROR, { error })
 export const closeAuthError 	= ()						=> ac(types.CLOSE_AUTH_ERROR)
 export const displayAuth	 	= (screen)					=> ac(types.DISPLAY_AUTH, { screen })
 
-export const routeNavigate 	= (routeName, params = {}) 		=> ac(types.ROUTE_NAVIGATE,{routeName, params})
-export const routeReset 	= (routeName, params = {}) 		=> ac(types.ROUTE_RESET, {routeName, params})
-export const routeBack 		= (routeName) 					=> ac(types.ROUTE_BACK, {routeName})
+export const routeNavigate 		= (routeName, params = {}) 	=> ac(types.ROUTE_NAVIGATE,{routeName, params})
+export const routeReset 		= (routeName, params = {}) 	=> ac(types.ROUTE_RESET, {routeName, params})
+export const routeBack 			= (routeName) 				=> ac(types.ROUTE_BACK, {routeName})
 
 export const userDataLoaded		= (data)					=> ac(types.USER_DATA_LOADED, { ...data })
 
-export const quoteRequest 	= () 					=> ac(types.QUOTE_REQUEST)
-export const quoteFulfilled = (response) 			=> ac(types.QUOTE_FULFILLED, { response })
-export const quoteError 	= (err)					=> ac(types.QUOTE_ERROR, { err })
+export const setCurrentTime		= (currentTime)				=> ac(types.SET_CURRENT_TIME, { currentTime })
 
+export const recordsLoaded		= (data)					=> ac(types.RECORDS_LOADED, { data })
+
+export const search				= (term)					=> ac(types.SEARCH, { term, time: Date.now() })
+export const searchFetched		= (term, meaning, time)		=> ac(types.SEARCH_FETCHED, {term, meaning, time})
+
+export const display			= (term)					=> ac(types.DISPLAY, { term })
+export const displayFetched		= (term, meaning, time)		=> ac(types.DISPLAY_FETCHED, {term, meaning, time})
+
+export const play 				= (url) 					=> ac(types.PLAY, { url })
+
+export const recordUnmount		= ()						=> ac(types.RECORD_UNMOUNT)
+
+export const setAnswer			= (answer)					=> ac(types.SET_ANSWER, { answer })
+export const setStep			= (step)					=> ac(types.SET_STEP, { step })
+export const editUnmount		= ()						=> ac(types.EDIT_UNMOUNT, { time: Date.now() })

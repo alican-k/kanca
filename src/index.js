@@ -1,5 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
+import codepush from 'react-native-code-push'
 import store from './store'
 import { setNavigation } from './helpers/navigation'
 import Navigator from './Navigator'
@@ -14,4 +15,4 @@ const Index = () =>
 		<Navigator ref={ref => setNavigation(ref)} />
 	</Provider>
 
-export default Index
+export default codepush(Index)

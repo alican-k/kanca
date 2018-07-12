@@ -1,6 +1,7 @@
 import 'rxjs'
 import { Observable } from 'rxjs/Observable'
 import firebase from 'react-native-firebase'
+import { compose, dissoc, map } from 'ramda'
 
 const url = 'https://talaikis.com/api/quotes/random/'
 
@@ -12,6 +13,7 @@ export const randomQuote = () =>
 
 const db = firebase.firestore()
 const auth = firebase.auth()
+
 export const getUid = () => firebase.auth().currentUser.uid
 
 export const authState$ = () => Observable.create(observer => {
@@ -49,5 +51,31 @@ export const reset = (email) =>
 export const loadUserData = () =>
 	db.collection('Users').doc(getUid()).get().then(documentCallback)
 
+export const prepareRecords = () =>
+	db.collection('Records').doc(getUid()).set({ count: 0 })
+
+export const loadRecords = () =>
+	getRecords().get().then(recordsToArray)
+
+export const saveSearchDate = (term, time) => 
+	getRecords().doc(term).update({ searchDate: time })
+
+export const saveNewRecord = (record) => 
+	getRecords().doc(record.term).set(dissoc('term', record))
+
+export const saveAnswers = (term, answers, memorizeDate) =>
+	getRecords().doc(term).update({ answers, memorizeDate }).catch(err => console.log('err: ', err))
+
+	
+// * * * * * //
+
+
+const getRecords = () => db.collection('Records').doc(getUid()).collection('records')
+
 const documentCallback = doc => doc.data()
 	
+const recordsToArray = snap => {
+	const arr = []
+	snap.forEach(doc => arr.push({term: doc.id, ...doc.data()}))
+	return arr
+}

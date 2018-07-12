@@ -10,10 +10,10 @@ import { authScreenConst } from '../../constants'
 
 const Reset = ({ operating, email, setEmail, _reset, _toLogIn }) =>
 	<View style={styles.container}>
-		<Text style={styles.description}>Instructions will be sent to your email</Text>
+		<Text style={styles.description}>Gerekli adımları içeren e-posta gönderilecek</Text>
 		<TextInput
 			style={styles.input} 
-			placeholder='Email'
+			placeholder='E-posta'
 			keyboardType='email-address'
 			autoCapitalize='none'
 			underlineColorAndroid='transparent'
@@ -21,22 +21,22 @@ const Reset = ({ operating, email, setEmail, _reset, _toLogIn }) =>
 		/>
 		<CustomButton 
 			type='primary' 
-			text='Reset' 
+			text='Yenile' 
 			onPress={_reset} 
 			animation={operating}
 			disabled={operating}
 		/>
 
-		<Text style={styles.or}>OR</Text>
+		<Text style={styles.or}>VEYA</Text>
 		
 		<View style={styles.forgotContainer}>
-			<Text style={styles.forgotText}>Return to</Text>
 			<CustomButton 
 				type='link' 
-				text='Log in' 
+				text='Giriş'
 				onPress={_toLogIn}
 				disabled={operating}
 			/>
+			<Text style={styles.forgotText}>ekranına dön</Text>
 		</View>
 	</View>
 

@@ -14,28 +14,28 @@ const Login = ({ operating, setEmail, setPassword, _logIn, _toSignUp, _toForgot 
 	<View style={styles.container}>
 		<TextInput 
 			style={styles.input} 
-			placeholder='Enter Email' 
+			placeholder='E-posta' 
 			keyboardType='email-address' 
 			autoCapitalize='none' 
 			underlineColorAndroid='transparent'
 			onChangeText={setEmail} />
 		<TextInput 
 			style={styles.input} 
-			placeholder='Enter Password' 
+			placeholder='Şifre' 
 			autoCapitalize='none' 
 			secureTextEntry={true} 
 			underlineColorAndroid='transparent'
 			onChangeText={setPassword} />
 
-		<CustomButton type='primary' text='Log In' onPress={_logIn} animation={operating} />
+		<CustomButton type='primary' text='Giriş' onPress={_logIn} animation={operating} />
 
-		<Text style={styles.or}>OR</Text>
+		<Text style={styles.or}>VEYA</Text>
 
-		<CustomButton type='secondary' text='Sign Up' onPress={_toSignUp} disabled={operating} />
+		<CustomButton type='secondary' text='Üye ol' onPress={_toSignUp} disabled={operating} />
 
 		<View style={styles.forgotContainer}>
-			<Text style={styles.forgotText}>Forgot your password?</Text>
-			<CustomButton type='link' text='Reset now!' onPress={_toForgot} />
+			<Text style={styles.forgotText}>Şifreni mi unuttunuz?</Text>
+			<CustomButton type='link' text='Buradan yenileyin!' onPress={_toForgot} />
 		</View>
 	</View>
 

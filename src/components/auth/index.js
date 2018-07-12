@@ -15,8 +15,7 @@ const AuthScreen = ({ screen }) =>
 	<ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 		<AuthError />
 		<Image style={styles.logo} source={logo} />
-		<Text style={styles.rn}>React Native</Text>
-		<Text style={styles.starter}>STARTER</Text>
+		<Text style={styles.starter}>KANCA</Text>
 
 		{ screen === authScreenConst.LOG_IN 	&& <LogIn /> }
 		{ screen === authScreenConst.SIGN_UP 	&& <SignUp /> }
@@ -40,8 +39,10 @@ const styles = StyleSheet.create({
 	logo: {
 		alignSelf: 'center',
 		marginTop: 30,
+		marginBottom: 15,
 		width: 100,
 		height: 100,
+		borderRadius: 10,
 	},
 	rn: {
 		textAlign: 'center',
@@ -54,6 +55,6 @@ const styles = StyleSheet.create({
 		fontSize: 38,
 		letterSpacing: 3,
 		color: 'blue',
-		marginBottom: 10
+		marginBottom: 15
 	}
 })

@@ -9,11 +9,11 @@ import { authScreenConst } from '../../constants'
 const Sent = ({ _toLogIn }) =>
 	<View style={styles.container}>
 		<Text style={styles.description}>
-			Instructions are sent to your email
+			E-posta gönderildi
 		</Text>
 		<View style={styles.forgotContainer}>
-			<Text style={styles.forgotText}>Back to</Text>
-			<CustomButton type='link' text='Log in' onPress={_toLogIn} />
+			<CustomButton type='link' text='Giriş' onPress={_toLogIn} />
+			<Text style={styles.forgotText}>ekranına dön</Text>
 		</View>
 	</View>
 	
