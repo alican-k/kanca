@@ -1,11 +1,11 @@
 import { 
 	__, compose as c, all, always, assoc, assocPath, concat, defaultTo, descend, dissoc, evolve,
-	 flatten, filter, findIndex, identity, is, isNil, ifElse, intersperse, lt, map, prepend, prop, propEq, remove, reduce,
+	 flatten, filter as filtr, findIndex, identity, is, isNil, ifElse, intersperse, lt, map, prepend, prop, propEq, remove, reduce,
 	 slice, take, trim, toLower, startsWith
 } from 'ramda'
 import { move } from 'ramda-adjunct'
 import * as actionTypes from '../actions/types'
-import { listsConst, statusConstSimple, statusConstWithNone, saveTypeConst,  } from '../constants'
+import { listsConst, statusConstSimple, statusConstWithNone, saveTypeConst, filterConst  } from '../constants'
 import { splitItem, splitMeaning } from '../helpers/utils'
 import { get, set, helpers } from '../helpers/state'
 
@@ -25,6 +25,11 @@ const initial = {
 	save			: {
 		type 	: saveTypeConst.NONE,
 		data	: null
+	},
+
+	filter			: {
+		active		: false,
+		choise 		: filterConst.ALL
 	}
 }
 
@@ -35,6 +40,11 @@ const reducer = (state = initial, action) => {
 		case actionTypes.USER_DATA_LOADED: {
 			const { name } = action.payload
 			return {...state, me: { name }}
+		}
+
+		case actionTypes.RECORDS_LOAD: {
+			const { me, responses, filter } = state
+			return {...initial, me, responses, filter}
 		}
 
 		case actionTypes.RECORDS_LOADED: {
@@ -117,7 +127,16 @@ const reducer = (state = initial, action) => {
 		}
 
 		case actionTypes.RECORD_UNMOUNT: {
-			return {...state, index: null, step: 0}
+			if(state.filter.choise === filterConst.ALL)
+				return {...state, index: null, step: 0}
+
+			const predicate = state.filter.choise === filterConst.MEMORIZED
+				? record => record.memorizeDate > 0
+				: record => record.memorizeDate === 0
+
+			const records = filtr(predicate)(state.records)
+
+			return {...state, records, index: null, step: 0}
 		}
 
 		case actionTypes.SET_STEP: {
@@ -139,15 +158,28 @@ const reducer = (state = initial, action) => {
 			const term = get.term(state)
 			const answers = get.answers(state)
 			const memorizeDate = helpers.completed(answers) ? time : 0
+			const memorized = Boolean(memorizeDate)
 			const stateMemorizeDateUpdated = set.memorizeDate(memorizeDate)(state)
 
 			return {
 				...stateMemorizeDateUpdated,
 				save: {
 					type: saveTypeConst.ANSWERS,
-					data: {term, answers, memorizeDate}
+					data: {term, answers, memorizeDate, memorized}
 				}
 			}
+		}
+
+		case actionTypes.TOGGLE_MODAL: {
+			const { active } = action.payload
+			const filter = {...state.filter, active}
+			return { ...state, filter }
+		}
+
+		case actionTypes.SET_FILTER: {
+			const { choise } = action.payload
+			const filter = {...state.filter, choise}
+			return {...state, filter}
 		}
 
 		default:
@@ -176,7 +208,7 @@ const createSummary = meaning => {
 		reduce(concat, ''),
 		intersperse(', '),
 		map(item => slice(3, item.length, item)),
-		filter(startsWith('def')),
+		filtr(startsWith('def')),
 		flatten,
 		map(splitItem),
 		take(5),

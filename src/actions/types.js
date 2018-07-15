@@ -21,11 +21,15 @@ export const USER_DATA_LOADED		= 'USER_DATA_LOADED'
 export const SET_CURRENT_TIME		= 'SET_CURRENT_TIME'
 
 export const RECORDS_LOADED			= 'RECORDS_LOADED'
+export const RECORDS_LOAD 			= 'RECORDS_LOAD'
 
 export const SEARCH					= 'SEARCH'
 export const SEARCH_FETCHED			= 'SEARCH_FETCHED'
 export const DISPLAY				= 'DISPLAY'
 export const DISPLAY_FETCHED		= 'DISPLAY_FETCHED'
+
+export const TOGGLE_MODAL			= 'TOGGLE_MODAL'
+export const SET_FILTER				= 'SET_FILTER'
 
 export const PLAY 					= 'PLAY'
 

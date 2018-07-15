@@ -57,6 +57,10 @@ const answersPath			= ['records', index, 'answers']
 const answers 				= flexPath(answersPath)
 const answer 				= flexPath([answers, step])
 
+const filter				= prop('filter')
+const filterObj				= objOfBy('filter', filter)
+const choise				= path(['filter', 'choise'])
+
 /*  *  *  *  *  *  *  *  *  *  *  S E T T E R  *  *  *  *  *  *  *  *  *  *  *  */
 
 const setAnswer 			= flexAssoc([...answersPath, step])
@@ -93,6 +97,7 @@ export const get = {
 	mainObj,
 	me, 
 	records, record, recordsObj, recordsStatus, recordsLoading, index, term, termObj, step, stepObj, recordsObj, save,
+	filter, filterObj, choise,
 	indexByTerm,
 	responses, response, responseObj, responseOf, responseLoading, meaningNotFound, meaningDidYouMean, meaningNotValid,
 	answers, answer

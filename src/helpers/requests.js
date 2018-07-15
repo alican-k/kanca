@@ -2,14 +2,7 @@ import 'rxjs'
 import { Observable } from 'rxjs/Observable'
 import firebase from 'react-native-firebase'
 import { compose, dissoc, map } from 'ramda'
-
-const url = 'https://talaikis.com/api/quotes/random/'
-
-export const randomQuote = () => 
-	fetch(url).then(res => res.json())
-
-
-/* FIREBASE */
+import { filterConst } from '../constants';
 
 const db = firebase.firestore()
 const auth = firebase.auth()
@@ -54,8 +47,24 @@ export const loadUserData = () =>
 export const prepareRecords = () =>
 	db.collection('Records').doc(getUid()).set({ count: 0 })
 
-export const loadRecords = () =>
-	getRecords().get().then(recordsToArray)
+/* lastTerm veya searchDate, filterChoice
+ * belirli bir tarihten önceki belirli sayıda kaydı, memorizationDate e göre seçecek.
+*/
+export const loadRecords = (params = {}) => {
+	console.log('params: ', params)
+	const { choise } = params
+	console.log('choise: ', choise)
+	const allRecords = getRecords()
+	let filteredRecords
+	
+	if(Boolean(choise) && choise === filterConst.MEMORIZED)
+		filteredRecords = allRecords.where('memorized', '==', true)
+	else if(Boolean(choise) && choise === filterConst.NOT_MEMORIZED)
+		filteredRecords = allRecords.where('memorized', '==', false)
+	else filteredRecords = allRecords
+
+	return filteredRecords.get().then(recordsToArray)
+}
 
 export const saveSearchDate = (term, time) => 
 	getRecords().doc(term).update({ searchDate: time })
@@ -63,8 +72,8 @@ export const saveSearchDate = (term, time) =>
 export const saveNewRecord = (record) => 
 	getRecords().doc(record.term).set(dissoc('term', record))
 
-export const saveAnswers = (term, answers, memorizeDate) =>
-	getRecords().doc(term).update({ answers, memorizeDate }).catch(err => console.log('err: ', err))
+export const saveAnswers = (term, answers, memorizeDate, memorized) =>
+	getRecords().doc(term).update({ answers, memorizeDate, memorized }).catch(err => console.log('err: ', err))
 
 	
 // * * * * * //

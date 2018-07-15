@@ -13,7 +13,7 @@ import { loadUserData, loadRecords, saveNewRecord, saveSearchDate, saveAnswers }
 import { search as fetchTerm } from '../helpers/seslisozluk'
 import { get } from '../helpers/state'
 import {sampleMeaning, sampleRecords} from '../dump'
-import { saveTypeConst } from '../constants'
+import { saveTypeConst, filterConst } from '../constants'
 
 const { of, concat, fromPromise, empty, timer } = Observable
 
@@ -26,6 +26,13 @@ export const loggedInEpic = action$ => action$.ofType(actionTypes.LOGGED_IN)
 		fromPromise(loadRecords())
 			.map(recordsLoaded)
 	))
+
+export const recordsLoadEpic = (action$, store) => action$.ofType(actionTypes.RECORDS_LOAD)
+	.switchMap(action => {
+		const choise = get.choise(main(store))
+		return loadRecords({choise})
+	})
+	.map(recordsLoaded)
 
 export const searchEpic = (action$, store) => action$.ofType(actionTypes.SEARCH)
 	.switchMap(action => {
@@ -72,8 +79,8 @@ export const setAnswerEpic = (action$, store) => action$.ofType(actionTypes.SET_
 
 export const editUnmountEpic = (action$, store) => action$.ofType(actionTypes.EDIT_UNMOUNT)
 	.switchMap(() => {
-		const {term, answers, memorizeDate} = get.save(main(store)).data
-		return fromPromise(saveAnswers(term, answers, memorizeDate))
+		const {term, answers, memorizeDate, memorized} = get.save(main(store)).data
+		return fromPromise(saveAnswers(term, answers, memorizeDate, memorized))
 			.ignoreElements()
 	})
 

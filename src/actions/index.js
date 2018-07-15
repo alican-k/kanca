@@ -26,6 +26,10 @@ export const userDataLoaded		= (data)					=> ac(types.USER_DATA_LOADED, { ...dat
 export const setCurrentTime		= (currentTime)				=> ac(types.SET_CURRENT_TIME, { currentTime })
 
 export const recordsLoaded		= (data)					=> ac(types.RECORDS_LOADED, { data })
+export const recordsLoad 		= ()						=> ac(types.RECORDS_LOAD)
+
+export const toggleModal		= (active)					=> ac(types.TOGGLE_MODAL, { active })
+export const setFilter			= (choise)					=> ac(types.SET_FILTER, { choise })
 
 export const search				= (term)					=> ac(types.SEARCH, { term, time: Date.now() })
 export const searchFetched		= (term, meaning, time)		=> ac(types.SEARCH_FETCHED, {term, meaning, time})

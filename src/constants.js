@@ -33,6 +33,12 @@ export const saveTypeConst			= {
 	ANSWERS			: 'ANSWERS'
 }
 
+export const filterConst		= {
+	MEMORIZED		: 'MEMORIZED',
+	NOT_MEMORIZED	: 'NOT_MEMORIZED',
+	ALL 			: 'ALL'
+}
+
 export const questions = [
 	{ q: 'Görsel çağrışımlar', p: 'Görsel olaraksize ne anımsattığını not alın. Şekil ve renk olarak olabildiğince fazla detay girin.' },
 	{ q: 'İşitsel çağrışımlar', p: 'Ses ve mantıksal yönden kelimenin size çağrıştırdığı şeyleri not alın.' },
