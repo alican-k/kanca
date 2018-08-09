@@ -1,7 +1,7 @@
 import { 
 	__, all, always, anyPass, assocPath, both, compose as c, concat, converge, descend, 
 	equals, either, identity, is, isEmpty, isNil, findIndex, gt,
-	keys, map, not, objOf, path, pathEq, pick, prop, propEq, sortWith, toLower, unapply , useWith
+	keys, last, map, not, objOf, path, pathEq, pick, prop, propEq, sortWith, toLower, unapply , useWith
 } from 'ramda'
 import { lengthGte, lengthEq, isNilOrEmpty } from 'ramda-adjunct'
 import { authStatusConst, MIN_ANSWER_LENGTH, statusConstSimple, questions } from '../constants'
@@ -10,6 +10,9 @@ import { authStatusConst, MIN_ANSWER_LENGTH, statusConstSimple, questions } from
 
 const log = title => x => { console.log(title, ' :', x); return x }
 
+/* 
+ *  
+*/
 const composeBy		= r => (param, f) => c(r(param), f)
 const propBy		= composeBy(prop)
 const equalsBy		= composeBy(equals)
@@ -33,13 +36,16 @@ const records				= prop('records')
 const recordsObj 			= objOfBy('records', records)
 const recordsStatus			= prop('recordsStatus')
 const recordsLoading		= equalsBy(statusConstSimple.LOADING, recordsStatus)
+const moreStatusObj			= objOfBy('moreStatus', prop('moreStatus'))
 const index 				= prop('index')
 const step					= prop('step')
 const stepObj				= objOfBy('step', step)
 const record 				= flexPath([records, index])
 const save					= prop('save')
+const searchDate			= flexPath(['records', index, 'searchDate'])
 
 const indexByTerm 			= term => c(findIndex(propEq('term', term)), records)
+const memorizeDateOfIndex	= i => path(['records', i, 'memorizeDate'])
 
 const term 					= prop('term')
 const termObj				= objOfBy('term', term)
@@ -61,10 +67,13 @@ const filter				= prop('filter')
 const filterObj				= objOfBy('filter', filter)
 const choise				= path(['filter', 'choise'])
 
+const lastSearchDate 		= c(prop('searchDate'), last, log('recs: '), records)
+
 /*  *  *  *  *  *  *  *  *  *  *  S E T T E R  *  *  *  *  *  *  *  *  *  *  *  */
 
 const setAnswer 			= flexAssoc([...answersPath, step])
 const memorizeDate			= flexAssoc(['records', index, 'memorizeDate'])
+const order					= flexAssoc(['records', index, 'order'])
 
 /*  *  *  *  *  *  *  *  *  *  *  N O N - S T A T E  *  *  *  *  *  *  *  *  *  */
 
@@ -96,14 +105,14 @@ export const m = f => c(f, prop('main'))
 export const get = {
 	mainObj,
 	me, 
-	records, record, recordsObj, recordsStatus, recordsLoading, index, term, termObj, step, stepObj, recordsObj, save,
-	filter, filterObj, choise,
-	indexByTerm,
+	records, record, searchDate, recordsObj, recordsStatus, recordsLoading, index, term, termObj, step, stepObj, recordsObj, save,
+	filter, filterObj, choise, lastSearchDate, moreStatusObj,
+	indexByTerm, memorizeDateOfIndex,
 	responses, response, responseObj, responseOf, responseLoading, meaningNotFound, meaningDidYouMean, meaningNotValid,
 	answers, answer
 }
 export const set = {
-	setAnswer, memorizeDate
+	setAnswer, memorizeDate, order
 }
 export const helpers = {
 	sortBySearchDate, meaningFound, inputValidation, completed, pronunciationEmpty, urlEmpty
@@ -123,3 +132,19 @@ export const isNotAuthError = c(isNil, path(['auth', 'error']))
 
 export const getOperating = path(['auth', 'operating'])
 export const operatingInObj = c(objOf('operating'), getOperating)
+
+
+/*
+const state = { 
+		auth: { uid: 123452342, name: 'ali'},
+		main: {term: 'world'}
+	}
+	const main = pick(['main'])
+	const term = prop('term')
+	main.term = c(term, prop('main'))
+
+	console.log('main: ', main(state))
+	console.log('term: ', main.term(state))
+
+	// yukardakilerin haricinde flexPath ve varsa composeBy işlevleri
+*/

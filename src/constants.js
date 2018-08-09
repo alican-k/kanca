@@ -1,6 +1,8 @@
 import { toLower } from 'ramda'
 
-export const MIN_ANSWER_LENGTH = 8
+export const MIN_ANSWER_LENGTH 	= 8
+
+export const RECORD_LIMIT		= 12
 
 export const authStatusConst 	= {
 	INITIALIZING	: 'INITIALIZING',
@@ -18,6 +20,13 @@ export const authScreenConst 	= {
 export const statusConstSimple = {
 	LOADING			: 'LOADING',
 	LOADED			: 'LOADED'
+}
+
+export const moreStatusConst	= {
+	NONE 			: 'NONE',
+	NEED 			: 'NEED',
+	LOADING			: 'LOADING',
+	NOT_NEED		: 'NOT_NEED'
 }
 
 export const statusConstWithNone = {

@@ -26,7 +26,7 @@ export const userDataLoaded		= (data)					=> ac(types.USER_DATA_LOADED, { ...dat
 export const setCurrentTime		= (currentTime)				=> ac(types.SET_CURRENT_TIME, { currentTime })
 
 export const recordsLoaded		= (data)					=> ac(types.RECORDS_LOADED, { data })
-export const recordsLoad 		= ()						=> ac(types.RECORDS_LOAD)
+export const recordsLoad 		= (more = false)			=> ac(types.RECORDS_LOAD, { more })
 
 export const toggleModal		= (active)					=> ac(types.TOGGLE_MODAL, { active })
 export const setFilter			= (choise)					=> ac(types.SET_FILTER, { choise })

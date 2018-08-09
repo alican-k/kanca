@@ -23,14 +23,18 @@ export const loggedInEpic = action$ => action$.ofType(actionTypes.LOGGED_IN)
 		of(setCurrentTime(Date.now())),
 		fromPromise(loadUserData())
 			.map(userDataLoaded),
-		fromPromise(loadRecords())
+		fromPromise(loadRecords({choise: filterConst.ALL, searchDate: Date.now()}))
 			.map(recordsLoaded)
 	))
 
 export const recordsLoadEpic = (action$, store) => action$.ofType(actionTypes.RECORDS_LOAD)
 	.switchMap(action => {
+		const { more } = action.payload
 		const choise = get.choise(main(store))
-		return loadRecords({choise})
+		const now = Date.now()
+		console.log('now: ', now)
+		const searchDate = more ? get.lastSearchDate(main(store)) : now
+		return loadRecords({choise, searchDate})
 	})
 	.map(recordsLoaded)
 
@@ -45,7 +49,7 @@ export const searchEpic = (action$, store) => action$.ofType(actionTypes.SEARCH)
 					.map(meaning => searchFetched(term, meaning, time))
 				: empty(),
 			get.save(main(store)).type === saveTypeConst.SEARCH_DATE
-				? fromPromise(saveSearchDate(term, time))
+				? fromPromise(saveSearchDate(term, time, get.save(main(store)).data.order))
 					.ignoreElements()
 				: empty()
 		)
@@ -79,8 +83,8 @@ export const setAnswerEpic = (action$, store) => action$.ofType(actionTypes.SET_
 
 export const editUnmountEpic = (action$, store) => action$.ofType(actionTypes.EDIT_UNMOUNT)
 	.switchMap(() => {
-		const {term, answers, memorizeDate, memorized} = get.save(main(store)).data
-		return fromPromise(saveAnswers(term, answers, memorizeDate, memorized))
+		const {term, answers, memorizeDate, order} = get.save(main(store)).data
+		return fromPromise(saveAnswers(term, answers, memorizeDate, order))
 			.ignoreElements()
 	})
 

@@ -5,7 +5,8 @@ import {
 } from 'ramda'
 import { move } from 'ramda-adjunct'
 import * as actionTypes from '../actions/types'
-import { listsConst, statusConstSimple, statusConstWithNone, saveTypeConst, filterConst  } from '../constants'
+import { listsConst, statusConstSimple, statusConstWithNone, saveTypeConst, filterConst, 
+	moreStatusConst, RECORD_LIMIT  } from '../constants'
 import { splitItem, splitMeaning } from '../helpers/utils'
 import { get, set, helpers } from '../helpers/state'
 
@@ -14,6 +15,7 @@ const initial = {
 	
 	records 		: [],
 	recordsStatus	: statusConstSimple.LOADING,
+	moreStatus		: moreStatusConst.NONE,
 	index			: null,
 	step			: 0,
 
@@ -43,17 +45,24 @@ const reducer = (state = initial, action) => {
 		}
 
 		case actionTypes.RECORDS_LOAD: {
-			const { me, responses, filter } = state
-			return {...initial, me, responses, filter}
+			const { more } = action.payload
+			if(!more) {
+				const { me, responses, filter } = state
+				return {...initial, me, responses, filter}
+			}
+			return {...state, moreStatus: moreStatusConst.LOADING}
 		}
 
 		case actionTypes.RECORDS_LOADED: {
 			// data içerisinde count verisi de var.
-			const records = defaultTo([], action.payload.data)
+			const records = state.moreStatus === moreStatusConst.LOADING
+				? defaultTo([], [...state.records, ...action.payload.data])
+				: defaultTo([], action.payload.data)
 			return {
 				...state,
-				'records': helpers.sortBySearchDate(records),
-				'recordsStatus': statusConstSimple.LOADED
+				records 		: helpers.sortBySearchDate(records),
+				recordsStatus	: statusConstSimple.LOADED,
+				moreStatus		: action.payload.data.length < RECORD_LIMIT ? moreStatusConst.NOT_NEED : moreStatusConst.NEED
 			}
 		}
 
@@ -67,6 +76,8 @@ const reducer = (state = initial, action) => {
 			const term = prepareTerm(action)
 			const response = defaultTo(initialResponse, get.responseOf(term)(state))
 			const index = get.indexByTerm(term)(state)
+			const memorizedFlag = get.memorizeDateOfIndex(index)(state) > 0 ? 'b' : 'a'
+			const order = memorizedFlag + time
 
 			return evolve(__, state)({
 				term		: always(term),
@@ -75,11 +86,15 @@ const reducer = (state = initial, action) => {
 				records		: ifElse(
 					() => index < 0,
 					identity,
-					c(assocPath([0, 'searchDate'], time), move(index, 0))
+					c(
+						assocPath([0, 'order'], order),
+						assocPath([0, 'searchDate'], time), 
+						move(index, 0)
+					)
 				),
 				save 		: () => index < 0 
 								? {type: saveTypeConst.NONE, data: null}
-								: {type: saveTypeConst.SEARCH_DATE, data: {term, time}}
+								: {type: saveTypeConst.SEARCH_DATE, data: {term, time, order }}
 			})
 		}
 
@@ -157,15 +172,18 @@ const reducer = (state = initial, action) => {
 			const { time } = action.payload
 			const term = get.term(state)
 			const answers = get.answers(state)
+			const searchDate = get.searchDate(state)
+			console.log('searchDate: ', searchDate)
 			const memorizeDate = helpers.completed(answers) ? time : 0
-			const memorized = Boolean(memorizeDate)
-			const stateMemorizeDateUpdated = set.memorizeDate(memorizeDate)(state)
+			const order = (memorizeDate > 0 ? 'b' : 'a') + searchDate
+			const stateOrderUpdated = set.order(order)(state)
+			const stateMemorizeDateUpdated = set.memorizeDate(memorizeDate)(stateOrderUpdated)
 
 			return {
 				...stateMemorizeDateUpdated,
 				save: {
 					type: saveTypeConst.ANSWERS,
-					data: {term, answers, memorizeDate, memorized}
+					data: {term, answers, memorizeDate, order}
 				}
 			}
 		}
@@ -195,9 +213,9 @@ const prepareTerm = action => c(toLower, trim)(action.payload.term)
 export const newRecord = (term, time, meaning) => ({
 	term,
 	searchDate		: time,
+	order			: 'a' + time,
 	memorizeDate	: 0,
 	summary			: createSummary(meaning),
-	meaning, 
 	answers			: []
 })
 
